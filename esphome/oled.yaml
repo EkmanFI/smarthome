@@ -1,0 +1,66 @@
+esphome:
+  name: oled
+  platform: ESP8266
+  board: d1_mini
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
+  password: !secret oled-password
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  manual_ip:
+    static_ip: 192.168.0.126
+    gateway: 192.168.0.254
+    subnet: 255.255.255.0  
+
+
+i2c:
+  sda: D2
+  scl: D1
+  scan: false
+  
+time:
+  - platform: homeassistant
+    id: esptime
+    
+sensor:
+  - platform: homeassistant
+    id: sauna_temp
+    entity_id: sensor.sauna_temp_2
+    internal: true
+  - platform: homeassistant
+    id: outside_temp
+    entity_id: sensor.outside_temp
+    internal: true
+  - platform: homeassistant
+    id: average_temp_inside
+    entity_id: sensor.inside_average
+    internal: true
+    
+font:
+  - file: 'fonts/OpenSans-Regular.ttf'
+    id: smallfont
+    size: 12
+  - file: 'fonts/OpenSans-Regular.ttf'
+    id: timefont
+    size: 15
+    
+display:
+  - platform: ssd1306_i2c
+    model: "SH1106 128x64"
+    address: 0x3C
+    lambda: |-
+      it.strftime(64,0, id(timefont), TextAlign::TOP_CENTER, "%H:%M", id(esptime).now());
+      it.printf(0,18, id(smallfont), TextAlign::TOP_LEFT, "Ute: %.1f°", id(outside_temp).state);
+      it.printf(0,32, id(smallfont), TextAlign::TOP_LEFT, "Inne: %.1f°", id(average_temp_inside).state);      
+      it.printf(0,46, id(smallfont), TextAlign::TOP_LEFT, "Bastun: %.1f°", id(sauna_temp).state);
+
+    
+

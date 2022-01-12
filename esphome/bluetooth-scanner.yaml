@@ -1,0 +1,65 @@
+esphome:
+  name: bluetooth-scanner
+  platform: ESP32
+  board: nodemcu-32s
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
+  password: !secret bluetooth-scanner-password
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  manual_ip:
+    static_ip: 192.168.0.124
+    gateway: 192.168.0.254
+    subnet: 255.255.255.0  
+
+
+esp32_ble_tracker:
+
+sensor:
+  - platform: ruuvitag  
+    mac_address: FA:B0:04:80:78:5D
+    temperature:
+      name: "Outside temp"
+    humidity:
+      name: "Outside humidity"
+    pressure:
+      name: "Outside pressure"
+    battery_voltage:
+      name: "Outside battery"
+    tx_power:
+      name: "Outside signal"
+  - platform: ruuvitag
+    mac_address: F5:49:CC:91:D5:AE
+    temperature:
+      name: "Fridge temp"
+    humidity:
+      name: "Fridge humidity"
+    pressure:
+      name: "Fridge pressure"
+    battery_voltage:
+      name: "Fridge battery"
+    tx_power:
+      name: "Fridge signal"
+  - platform: ruuvitag
+    mac_address: F3:7E:C6:95:16:15
+    temperature:
+      name: "Freezer temp"
+    humidity:
+      name: "Freezer humidity"
+    pressure:
+      name: "Freezer pressure"
+    battery_voltage:
+      name: "Freezer battery"
+    tx_power:
+      name: "Freezer signal"
+    
+    
+

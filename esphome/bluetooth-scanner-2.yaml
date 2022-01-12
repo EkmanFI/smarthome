@@ -1,0 +1,65 @@
+esphome:
+  name: bluetooth-scanner-2
+  platform: ESP32
+  board: nodemcu-32s
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
+  password: !secret bluetooth-scanner-2-password
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  manual_ip:
+    static_ip: 192.168.0.132
+    gateway: 192.168.0.254
+    subnet: 255.255.255.0  
+
+esp32_ble_tracker:
+
+sensor:
+  - platform: ruuvitag
+    mac_address: D8:14:CA:F2:7B:1D
+    temperature:
+      name: "Sauna temp"
+    humidity:
+      name: "Sauna humidity"
+    pressure:
+      name: "Sauna pressure"
+    battery_voltage:
+      name: "Sauna battery"
+    tx_power:
+      name: "Sauna signal"
+  - platform: ruuvitag
+    mac_address: D9:EE:A9:D5:02:31
+    temperature:
+      name: "Base floor temp"
+    humidity:
+      name: "Base floor humidity"
+    pressure:
+      name: "Base floor pressure"
+    battery_voltage:
+      name: "Base floor battery"
+    tx_power:
+      name: "Base floor signal"
+  - platform: ruuvitag
+    mac_address: C0:FA:f6:8A:AD:BC
+    temperature:
+      name: "Attic temp"
+    humidity:
+      name: "Attic humidity"
+    pressure:
+      name: "Attic pressure"
+    battery_voltage:
+      name: "Attic battery"
+    tx_power:
+      name: "Attic signal"
+    
+    
+
+
